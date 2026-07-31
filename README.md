@@ -1,2 +1,3 @@
-# pw-demo
-pratt whitney demo for NIM gpt-oss-20b with RAG
+# RAG on prem demo
+
+Demonstrate how to install simple RAG on prem, with no GPU usage.
