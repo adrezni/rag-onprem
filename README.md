@@ -1,3 +1,3 @@
-# RAG on prem demo
+# RAG onprem
 
-Demonstrate how to install simple RAG on prem, with no GPU usage.
+Demonstrate how to install & run a simple RAG onprem, with no GPU usage.
