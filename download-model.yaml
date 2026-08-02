@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: download-granite-vision
+spec:
+  template:
+    spec:
+      containers:
+        - name: downloader
+          image: python:3.11-slim
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              pip install --no-cache-dir huggingface_hub &&
+              python -c "
+              from huggingface_hub import snapshot_download
+              snapshot_download(
+                  repo_id='ibm-granite/granite-vision-3.3-2b-GGUF',
+                  local_dir='/models/granite-vision-3.3-2b-GGUF'
+              )
+              "
+          volumeMounts:
+            - name: model-storage
+              mountPath: /models
+          env:
+            # Only needed if the repo requires auth / you're rate-limited anonymously
+            - name: HF_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hf-token-secret
+                  key: token
+      restartPolicy: Never
+      volumes:
+        - name: model-storage
+          persistentVolumeClaim:
+            claimName: granite-vision-model-pvc
+  backoffLimit: 2
