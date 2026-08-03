@@ -49,3 +49,7 @@ curl -sL http://localhost:8080/v1/chat/completions \
 
 workshop_create_users 10
 ```
+
+## Links
+
+- https://github.com/redhat-ai-services/modelcar-catalog
