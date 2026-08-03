@@ -8,6 +8,9 @@ metadata:
     openshift.io/display-name: granite-vision-model-oci
     security.opendatahub.io/enable-auth: "false"
     serving.kserve.io/deploymentMode: Standard
+    # opendatahub.io/connections - references the secret below
+    # so dashboard magic works when you edit the deployment
+    opendatahub.io/connections: granite-vision-model-oci
   labels:
     opendatahub.io/dashboard: "true"
 spec:
@@ -33,3 +36,18 @@ spec:
       runtime: granite-vision-model
       storageUri: oci://image-registry.openshift-image-registry.svc:5000/modelcars/ibm-granite:granite-vision-3.3-2b
     timeout: 30
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  annotations:
+    opendatahub.io/connection-hidden: 'false'
+    opendatahub.io/connection-type-protocol: oci
+    opendatahub.io/connection-type-ref: oci-v1
+    openshift.io/display-name: granite-vision-model-oci
+  name: granite-vision-model-oci
+  labels:
+    opendatahub.io/dashboard: 'true'
+stringData:
+  OCI_HOST: image-registry.openshift-image-registry.svc
+type: Opaque
