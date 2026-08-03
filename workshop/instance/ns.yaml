@@ -12,6 +12,7 @@ metadata:
     openshift.io/requester: automation
   labels:
     owner: workshop
+    workshop: user
     kubernetes.io/metadata.name: user0
     modelmesh-enabled: 'false'
     opendatahub.io/dashboard: 'true'
