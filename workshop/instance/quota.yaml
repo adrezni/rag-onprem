@@ -19,7 +19,7 @@ metadata:
   namespace: user0
 spec:
   hard:
-    requests.storage: 40Gi
+    requests.storage: 100Gi
     persistentvolumeclaims: '5'
 ---
 apiVersion: v1
