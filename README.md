@@ -26,6 +26,9 @@ Test with:
 
 ```sh
 oc port-forward svc/granite-vision-model-predictor 8080:80
+```
+
+```sh
 curl http://localhost:8080/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{"model": "granite-vision-model", "messages": [{"role": "user", "content": "Hello"}]}'
