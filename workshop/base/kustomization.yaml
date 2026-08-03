@@ -3,6 +3,6 @@ kind: Kustomization
 
 resources:
 - htpasswd
-- models
+- modelcars
 
 - link-github.yaml

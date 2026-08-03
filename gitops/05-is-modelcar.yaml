@@ -29,5 +29,5 @@ spec:
           cpu: "2"
           memory: 12Gi
       runtime: granite-vision-model
-      storageUri: oci://image-registry.openshift-image-registry.svc:5000/models/ibm-granite:granite-vision-3.3-2b
+      storageUri: oci://image-registry.openshift-image-registry.svc:5000/modelcars/ibm-granite:granite-vision-3.3-2b
     timeout: 30

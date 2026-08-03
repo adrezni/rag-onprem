@@ -3,7 +3,7 @@ apiVersion: image.openshift.io/v1
 kind: ImageStream
 metadata:
   name: ibm-granite
-  namespace: models
+  namespace: modelcars
 spec:
   tags:
   - name: latest
@@ -12,7 +12,7 @@ kind: BuildConfig
 apiVersion: build.openshift.io/v1
 metadata:
   name: granite-vision-3.3-2b
-  namespace: models
+  namespace: modelcars
 spec:
   output:
     to:
