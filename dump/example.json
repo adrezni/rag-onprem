@@ -1,0 +1,36 @@
+{
+  "id": "chatcmpl-898c24a00e03a0aa",
+  "object": "chat.completion",
+  "created": 1785784034,
+  "model": "granite-vision-model",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Hello! How can I assist you today?",
+        "refusal": null,
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [],
+        "reasoning": null
+      },
+      "logprobs": null,
+      "finish_reason": "stop",
+      "stop_reason": null,
+      "token_ids": null
+    }
+  ],
+  "service_tier": null,
+  "system_fingerprint": null,
+  "usage": {
+    "prompt_tokens": 49,
+    "total_tokens": 59,
+    "completion_tokens": 10,
+    "prompt_tokens_details": null
+  },
+  "prompt_logprobs": null,
+  "prompt_token_ids": null,
+  "kv_transfer_params": null
+}

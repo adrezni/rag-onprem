@@ -22,18 +22,22 @@ oc get inferenceservice granite-vision-model -w   # wait for READY: True
 
 - Model repo is `ibm-granite/granite-vision-3.3-2b` (full precision, NOT the -GGUF
   variant) since vLLM requires `config.json` + safetensors, not GGUF files.
+
 - `--max-model-len=8192` and `VLLM_CPU_KVCACHE_SPACE=2` (GiB) are tuned to fit inside
   a 12Gi memory limit on CPU-only inference. Increase both together if you have more
   RAM headroom and want longer context / multi-page document support.
 
-Test with:
+### Test
 
 ```sh
 oc port-forward svc/granite-vision-model-predictor 8080:80
 ```
 
 ```sh
-curl http://localhost:8080/v1/chat/completions \
+curl -sL http://localhost:8080/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -d '{"model": "granite-vision-model", "messages": [{"role": "user", "content": "Hello"}]}'
+  -d '{"model": "granite-vision-model", "messages": [{"role": "user", "content": "Hello"}]}' | \
+  jq .choices[0].message.content
 ```
+
+[Example output](dump/example.json)
