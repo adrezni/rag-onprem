@@ -5,4 +5,5 @@ resources:
 - htpasswd
 - modelcars
 
+- hw-profile.yaml
 - link-github.yaml
