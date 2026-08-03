@@ -12,5 +12,5 @@ metadata:
   labels:
     owner: workshop
     kubernetes.io/metadata.name: user0
-    modelmesh-enabled: 'true'
+    modelmesh-enabled: 'false'
     opendatahub.io/dashboard: 'true'
