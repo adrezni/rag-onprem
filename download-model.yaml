@@ -5,6 +5,7 @@ metadata:
 spec:
   template:
     spec:
+      restartPolicy: Never
       containers:
         - name: downloader
           image: python:3.11-slim
@@ -22,14 +23,6 @@ spec:
           volumeMounts:
             - name: model-storage
               mountPath: /models
-          env:
-            # Only needed if the repo requires auth / you're rate-limited anonymously
-            - name: HF_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: hf-token-secret
-                  key: token
-      restartPolicy: Never
       volumes:
         - name: model-storage
           persistentVolumeClaim:
