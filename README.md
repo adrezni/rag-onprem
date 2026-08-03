@@ -41,3 +41,11 @@ curl -sL http://localhost:8080/v1/chat/completions \
 ```
 
 [Example output](dump/example.json)
+
+## Workshop Setup
+
+```sh
+. workshop/workshop_functions.sh
+
+workshop_create_users 10
+```

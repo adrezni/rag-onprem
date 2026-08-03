@@ -99,9 +99,9 @@ WORKSHOP_USER=${WORKSHOP_USER:-user}
 WORKSHOP_PASS=${WORKSHOP_PASS:-openshift}
 WORKSHOP_NUM=${WORKSHOP_NUM:-50}
 WORKSHOP_HTPASSWD=htpasswd-workshop
+WORKSHOP_GROUP=workshop-users
 
-GROUP_ADMINS=workshop-admins
-# GROUP_USERS=workshop-users
+WORKSHOP_ADMINS=workshop-admins
 
 OBJ_DIR=${TMP_DIR}/workshop
 
@@ -127,7 +127,10 @@ workshop_init(){
   [ -e "${TMP_DIR}/htpasswd-local" ] || htpasswd_get_file "${TMP_DIR}/htpasswd-local"
   [ -e "${TMP_DIR}/workshop/htpasswd-workshop" ] || htpasswd_get_file "${TMP_DIR}/workshop/htpasswd-workshop"
 
-  echo "Workshop: Functions Loaded"
+  echo "
+    Workshop: Functions Loaded
+    WORKSHOP_USER: ${WORKSHOP_USER}
+  "
   workshop_usage
 }
 
@@ -163,14 +166,14 @@ workshop_create_users(){
   do
 
     # create login things
-    htpasswd_add_user "${DEFAULT_USER}${i}" "${DEFAULT_PASS}${i}" "${HTPASSWD_FILE}"
-    workshop_add_user_to_group "${DEFAULT_USER}${i}" "${DEFAULT_GROUP}"
+    htpasswd_add_user "${WORKSHOP_USER}${i}" "${WORKSHOP_PASS}${i}" "${HTPASSWD_FILE}"
+    workshop_add_user_to_group "${WORKSHOP_USER}${i}" "${WORKSHOP_GROUP}"
 
     # create users objs from template
-    cp -a workshop/instance "${OBJ_DIR}/${DEFAULT_USER}${i}"
-    sed -i 's/user0/'"${DEFAULT_USER}${i}"'/g' "${OBJ_DIR}/${DEFAULT_USER}${i}/"*.yaml
-    # oc apply -f "${OBJ_DIR}/${DEFAULT_USER}${i}/user-ns.yaml"
-    oc apply -k "${OBJ_DIR}/${DEFAULT_USER}${i}"
+    cp -a workshop/instance "${OBJ_DIR}/${WORKSHOP_USER}${i}"
+    sed -i 's/user0/'"${WORKSHOP_USER}${i}"'/g' "${OBJ_DIR}/${WORKSHOP_USER}${i}/"*.yaml
+    # oc apply -f "${OBJ_DIR}/${WORKSHOP_USER}${i}/user-ns.yaml"
+    oc apply -k "${OBJ_DIR}/${WORKSHOP_USER}${i}"
   done
 
   # update htpasswd in cluster
@@ -192,7 +195,7 @@ workshop_clean_jobs(){
 
 workshop_clean_users(){
   oc delete project -l owner=workshop
-  oc delete group "${DEFAULT_GROUP}"
+  oc delete group "${WORKSHOP_GROUP}"
   oc delete identities,users --all
 }
 
@@ -290,7 +293,7 @@ subjects:
   name: ${WORKSHOP_USER}${i}
 - apiGroup: rbac.authorization.k8s.io
   kind: Group
-  name: ${GROUP_ADMINS}
+  name: ${WORKSHOP_ADMINS}
 YAML
   done
 
@@ -347,8 +350,8 @@ workshop_clean_user_ns(){
 }
 
 workshop_setup(){
-  workshop_create_user_htpasswd
-  workshop_create_user_ns
+  # workshop_create_user_htpasswd
+  workshop_create_users ${1}
 }
 
 workshop_clean(){
