@@ -9,8 +9,8 @@ oc logs -f job/download-granite-vision      # wait for it to finish
 ```
 
 ```sh
-oc apply -f 04-servingruntime.yaml
-oc apply -f 03-inferenceservice.yaml
+oc apply -f 03-servingruntime.yaml
+oc apply -f 04-inferenceservice.yaml
 oc get inferenceservice granite-vision-model -w   # wait for READY: True
 ```
 
