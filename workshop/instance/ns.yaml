@@ -7,7 +7,7 @@ metadata:
     openshift.io/description: |
       A personal project to explore the wonders of science!
     # openshift.io/display-name: Start Here - user0
-    openshift.io/display-name: RAG On Prem
+    openshift.io/display-name: RAG On Prem - user0
     openshift.io/requester: workshop
   labels:
     owner: workshop

@@ -5,6 +5,8 @@ Apply in this order:
 ```sh
 cd gitops
 
+oc project user0                            # change to your user project
+
 oc apply -f 01-pvc.yaml
 oc apply -f 02-download-model.yaml
 oc logs -f job/download-granite-vision      # wait for it to finish

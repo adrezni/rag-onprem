@@ -9,13 +9,18 @@ spec:
       containers:
         - name: downloader
           image: python:3.11-slim
-          command: ["/bin/sh", "-c"]
           env:
             - name: HOME
               value: /tmp
+          command: ["/bin/sh", "-c"]
           args:
             - |
-              pip install --no-cache-dir --user huggingface_hub &&
+              #!/bin/bash
+
+              # install modules
+              pip install --no-cache-dir --user huggingface_hub
+              
+              # download model
               python -c "
               from huggingface_hub import snapshot_download
               snapshot_download(
