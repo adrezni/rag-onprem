@@ -61,5 +61,5 @@ workshop_create_users 10
 
 ## Links
 
-- https://github.com/redhat-ai-services/modelcar-catalog
-- https://quay.io/repository/redhat-ai-services/modelcar-catalog?tab=tags
+- [Modelcar Catalog (Examples)](https://github.com/redhat-ai-services/modelcar-catalog)
+- [Modelcar Container Registry](https://quay.io/repository/redhat-ai-services/modelcar-catalog?tab=tags)
