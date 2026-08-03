@@ -2,7 +2,6 @@ apiVersion: serving.kserve.io/v1alpha1
 kind: ServingRuntime
 metadata:
   name: granite-vision-model
-  namespace: peraton-workshop
   annotations:
     opendatahub.io/apiProtocol: REST
     opendatahub.io/runtime-version: v0.18.0
