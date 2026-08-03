@@ -1,7 +1,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: granite-vision-model-pvc
+  name: granite-vision-model
+  labels:
+    opendatahub.io/dashboard: 'true'
 spec:
   accessModes:
     - ReadWriteOnce
