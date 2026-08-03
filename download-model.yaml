@@ -10,9 +10,12 @@ spec:
         - name: downloader
           image: python:3.11-slim
           command: ["/bin/sh", "-c"]
+          env:
+            - name: HOME
+              value: /tmp
           args:
             - |
-              pip install --no-cache-dir huggingface_hub &&
+              pip install --no-cache-dir --user huggingface_hub &&
               python -c "
               from huggingface_hub import snapshot_download
               snapshot_download(
