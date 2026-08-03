@@ -5,10 +5,11 @@ metadata:
   name: user0
   annotations:
     openshift.io/description: |
-      A personal project to explore the wonders of science!
+      Workshop - RAG On Prem
+    # A personal project to explore the wonders of science!
     # openshift.io/display-name: Start Here - user0
-    openshift.io/display-name: RAG On Prem - user0
-    openshift.io/requester: workshop
+    openshift.io/display-name: user0
+    openshift.io/requester: automation
   labels:
     owner: workshop
     kubernetes.io/metadata.name: user0
