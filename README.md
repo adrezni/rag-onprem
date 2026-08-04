@@ -54,8 +54,9 @@ curl -sL http://granite-vision-model-predictor/v1/chat/completions \
 ## Workshop Setup
 
 ```sh
-. workshop/workshop_functions.sh
+oc apply -k workshop/overlays/default
 
+. workshop/workshop_functions.sh
 workshop_create_users 10
 ```
 

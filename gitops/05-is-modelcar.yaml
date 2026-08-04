@@ -1,3 +1,21 @@
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  annotations:
+    opendatahub.io/connection-hidden: 'false'
+    opendatahub.io/connection-type-protocol: oci
+    opendatahub.io/connection-type-ref: oci-v1
+    openshift.io/display-name: granite-vision-model-oci
+  name: granite-vision-model-oci
+  labels:
+    opendatahub.io/dashboard: 'true'
+stringData:
+  .dockerconfigjson: '{}'
+  ACCESS_TYPE: ''
+  OCI_HOST: image-registry.openshift-image-registry.svc
+type: kubernetes.io/dockerconfigjson
+---
 apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
 metadata:
@@ -5,7 +23,7 @@ metadata:
   annotations:
     modelFormat: vLLM
     openshift.io/display-name: granite-vision-model-oci
-    # opendatahub.io/connections - references the secret below
+    # opendatahub.io/connections - references the secret above
     # so dashboard magic works when you edit the deployment
     opendatahub.io/connections: granite-vision-model-oci
     # opendatahub.io/hardware-profile-namespace: redhat-ods-applications
@@ -38,20 +56,3 @@ spec:
       runtime: granite-vision-model
       storageUri: oci://image-registry.openshift-image-registry.svc:5000/modelcars/ibm-granite:granite-vision-3.3-2b
     timeout: 30
----
-kind: Secret
-apiVersion: v1
-metadata:
-  annotations:
-    opendatahub.io/connection-hidden: 'false'
-    opendatahub.io/connection-type-protocol: oci
-    opendatahub.io/connection-type-ref: oci-v1
-    openshift.io/display-name: granite-vision-model-oci
-  name: granite-vision-model-oci
-  labels:
-    opendatahub.io/dashboard: 'true'
-stringData:
-  .dockerconfigjson: '{}'
-  ACCESS_TYPE: ''
-  OCI_HOST: image-registry.openshift-image-registry.svc
-type: kubernetes.io/dockerconfigjson

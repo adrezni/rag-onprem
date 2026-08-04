@@ -1,3 +1,19 @@
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  annotations:
+    opendatahub.io/connection-hidden: 'false'
+    opendatahub.io/connection-type-protocol: uri
+    opendatahub.io/connection-type-ref: uri-v1
+    openshift.io/display-name: granite-vision-model
+  name: granite-vision-model
+  labels:
+    opendatahub.io/dashboard: 'true'
+stringData:
+  URI: pvc://granite-vision-model/granite-vision-3.3-2b
+type: Opaque
+---
 apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
 metadata:
@@ -38,18 +54,3 @@ spec:
       runtime: granite-vision-model
       storageUri: pvc://granite-vision-model/granite-vision-3.3-2b
     timeout: 30
----
-kind: Secret
-apiVersion: v1
-metadata:
-  annotations:
-    opendatahub.io/connection-hidden: 'false'
-    opendatahub.io/connection-type-protocol: uri
-    opendatahub.io/connection-type-ref: uri-v1
-    openshift.io/display-name: granite-vision-model
-  name: granite-vision-model
-  labels:
-    opendatahub.io/dashboard: 'true'
-stringData:
-  URI: pvc://granite-vision-model/granite-vision-3.3-2b
-type: Opaque
