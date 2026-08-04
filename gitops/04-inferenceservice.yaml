@@ -41,6 +41,9 @@ spec:
     model:
       args:
         - '--max-model-len=8192'
+      env:
+        - name: VLLM_CPU_KVCACHE_SPACE
+          value: "2"
       modelFormat:
         name: vLLM
       name: ""
