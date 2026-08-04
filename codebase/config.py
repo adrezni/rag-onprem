@@ -1,9 +1,9 @@
 """
 Configuration for the RAG app.
 
-Centralizes the model endpoint so it can point at either:
-  - a local Granite instance (default, air-gapped/offline mode), or
-  - an internal granite-deployed model endpoint on OpenShift AI.
+Centralizes the Granite and Embedding model endpoints so they can point at either:
+  - a local instance (default, air-gapped/offline mode), or
+  - an internal deployed model endpoint on OpenShift AI.
 
 Values can be overridden via environment variables without editing this file.
 """
