@@ -18,6 +18,12 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 # ── Vector Store ───────────────────────────────────────────────
 from langchain_community.vectorstores import Chroma
 
+# ── Chains & Prompts ───────────────────────────────────────────
+from langchain_core.prompts import ChatPromptTemplate
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain.chains.retrieval import create_retrieval_chain
+
+
 # ── LLM ───────────────────────────────────────────────────────
 from langchain_openai import ChatOpenAI
 from config import (
@@ -28,15 +34,11 @@ from config import (
     MODEL_MAX_TOKENS,
 )
 
-# ── Chains & Prompts ───────────────────────────────────────────
-from langchain.chains import RetrievalQA
-from langchain.prompts import PromptTemplate
-
 
 # ── Configuration ──────────────────────────────────────────────
 CHROMA_DB_PATH = "./chroma_db"
 PDF_FOLDER     = "./pdfs"
-OLLAMA_MODEL   = MODEL_NAME
+#OLLAMA_MODEL   = MODEL_NAME
 # Records which PDFs (and their size/mtime) the current index was built from,
 # so startup can detect added, changed, or removed files and re-index only when
 # the folder actually differs. Kept inside the DB dir so it travels with it.
@@ -150,35 +152,25 @@ def get_llm():
         max_tokens=MODEL_MAX_TOKENS,
     )
 
-
 @lru_cache(maxsize=1)
 def get_rag_chain():
     vector_store = load_vector_store()
     retriever    = vector_store.as_retriever(search_kwargs={"k": 3})
     llm          = get_llm()
 
-    prompt_template = """
+    prompt = ChatPromptTemplate.from_template("""
     Use the following context to answer the question.
     Answer concisely in a few sentences. Get straight to the point.
     If you don't know the answer, say you don't know.
     Do not make up information.
 
     Context: {context}
-    Question: {question}
+    Question: {input}
 
-    Answer:"""
+    Answer:""")
 
-    prompt = PromptTemplate(
-        template=prompt_template,
-        input_variables=["context", "question"]
-    )
-
-    chain = RetrievalQA.from_chain_type(
-        llm=llm,
-        chain_type="stuff",
-        retriever=retriever,
-        chain_type_kwargs={"prompt": prompt}
-    )
+    combine_docs_chain = create_stuff_documents_chain(llm, prompt)
+    chain = create_retrieval_chain(retriever, combine_docs_chain)
     return chain
 
 
@@ -244,8 +236,8 @@ def ensure_indexed():
 # ── Query ──────────────────────────────────────────────────────
 def query_rag(question: str):
     chain    = get_rag_chain()
-    response = chain.invoke({"query": question})
-    return response["result"]
+    response = chain.invoke({"input": question})
+    return response["answer"]
 
 
 # ── Streaming Query ────────────────────────────────────────────
@@ -253,9 +245,9 @@ def query_rag(question: str):
 # response progressively instead of waiting for the full answer.
 def query_rag_stream(question: str):
     chain = get_rag_chain()
-    for chunk in chain.stream({"query": question}):
-        # RetrievalQA emits {"result": "..."} pieces while streaming.
-        if isinstance(chunk, dict) and "result" in chunk:
-            yield chunk["result"]
-        elif isinstance(chunk, str):
-            yield chunk
+    for chunk in chain.stream({"input": question}):
+        # create_retrieval_chain streams partial dicts as generation proceeds.
+        # Early chunks may only contain "context" or "input" keys — skip those,
+        # and yield only the "answer" pieces as they arrive.
+        if "answer" in chunk:
+            yield chunk["answer"]

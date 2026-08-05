@@ -1,3 +1,4 @@
+__import__('pysqlite3')
 import threading
 
 import streamlit as st
@@ -66,7 +67,7 @@ with st.sidebar:
                 st.error(result)
 
     st.markdown("---")
-    st.markdown("**🤖 Model:** " + MODEL_NAME + " (via NIM)")
+    st.markdown("**🤖 Model:** " + MODEL_NAME)
     st.markdown("**🗄️ Vector DB:** ChromaDB")
     st.markdown("**🔍 Embeddings:** all-MiniLM-L6-v2")
 
@@ -100,7 +101,7 @@ if prompt := st.chat_input("💬 Ask a question about your PDFs..."):
             st.error(error_msg)
             st.markdown("""
             **💡 Troubleshooting:**
-            - ✅ Make sure NIM endpoint is reachable: `curl {MODEL_BASE_URL}/v1/models`
+            - ✅ Make sure Granite endpoint is reachable: `curl {MODEL_BASE_URL}/v1/models`
             - ✅ Make sure PDFs are indexed — click **Index PDFs**
-            - ✅ Make sure Mistral is pulled: `ollama pull mistral`
+            - ✅ Make sure Granite is pulled
             """)

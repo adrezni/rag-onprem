@@ -49,10 +49,10 @@ spec:
       name: ""
       resources:
         limits:
-          cpu: "2"
+          cpu: "4"
           memory: 12Gi
         requests:
-          cpu: "2"
+          cpu: "4"
           memory: 12Gi
       runtime: granite-vision-model
       storageUri: pvc://granite-vision-model/granite-vision-3.3-2b
